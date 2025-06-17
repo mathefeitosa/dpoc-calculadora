@@ -58,35 +58,87 @@ export default function Home() {
   const [borg, setBorg] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white font-roboto">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-2 sm:p-6 flex flex-col gap-6 mx-auto mt-2 mb-2 sm:mt-8 sm:mb-8 border border-blue-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white font-roboto p-2 sm:p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-2 sm:p-6 flex flex-col gap-6 mx-auto mt-6 mb-6 sm:mt-12 sm:mb-12 border-4 border-blue-300">
         {step === 0 && (
           <>
-            <h2 className="font-semibold text-lg mb-2">
+            <h2 className="font-semibold text-lg mb-2 text-blue-900">
               1. Exacerbações no último ano
             </h2>
-            <label className="block mb-2">
+            <label className="block mb-2 text-gray-900">
               Quantas exacerbações sem hospitalização?
             </label>
-            <input
-              type="number"
-              min={0}
-              value={exac}
-              onChange={(e) => setExac(Number(e.target.value))}
-              className="border rounded-lg px-2 py-1 w-24 mb-4 border-blue-200 focus:ring-2 focus:ring-blue-400 bg-blue-50"
-            />
-            <label className="block mb-2">
+            <div className="flex gap-2 mb-4">
+              {[0, 1, 2, 3].map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center font-bold text-base transition
+                    ${
+                      exac === v
+                        ? "bg-blue-700 text-white border-blue-700 shadow-md"
+                        : "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100"
+                    }
+                  `}
+                  onClick={() => setExac(v)}
+                  aria-label={`Selecionar ${v} exacerbações sem hospitalização`}
+                >
+                  {v}
+                </button>
+              ))}
+              <button
+                type="button"
+                className={`w-20 h-12 rounded-lg border-2 flex items-center justify-center font-bold text-base transition
+                  ${
+                    exac >= 4
+                      ? "bg-blue-700 text-white border-blue-700 shadow-md"
+                      : "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100"
+                  }
+                `}
+                onClick={() => setExac(4)}
+                aria-label="Selecionar 4 ou mais exacerbações sem hospitalização"
+              >
+                4+
+              </button>
+            </div>
+            <label className="block mb-2 text-gray-900">
               Quantas exacerbações com hospitalização?
             </label>
-            <input
-              type="number"
-              min={0}
-              value={exacHosp}
-              onChange={(e) => setExacHosp(Number(e.target.value))}
-              className="border rounded-lg px-2 py-1 w-24 mb-4 border-blue-200 focus:ring-2 focus:ring-blue-400 bg-blue-50"
-            />
+            <div className="flex gap-2 mb-4">
+              {[0, 1, 2].map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center font-bold text-base transition
+                    ${
+                      exacHosp === v
+                        ? "bg-blue-700 text-white border-blue-700 shadow-md"
+                        : "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100"
+                    }
+                  `}
+                  onClick={() => setExacHosp(v)}
+                  aria-label={`Selecionar ${v} exacerbações com hospitalização`}
+                >
+                  {v}
+                </button>
+              ))}
+              <button
+                type="button"
+                className={`w-20 h-12 rounded-lg border-2 flex items-center justify-center font-bold text-base transition
+                  ${
+                    exacHosp >= 3
+                      ? "bg-blue-700 text-white border-blue-700 shadow-md"
+                      : "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100"
+                  }
+                `}
+                onClick={() => setExacHosp(3)}
+                aria-label="Selecionar 3 ou mais exacerbações com hospitalização"
+              >
+                3+
+              </button>
+            </div>
             <button
-              className="mt-4 bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-medium shadow-md transition"
+              className="mt-4 bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-medium shadow-md transition w-full sm:w-auto"
               onClick={() => setStep(1)}
             >
               Próximo
@@ -139,7 +191,15 @@ export default function Home() {
                         </svg>
                       ) : null}
                     </span>
-                    {opt.label}
+                    <span
+                      className={`text-base ${
+                        mmrc === opt.value
+                          ? "text-white font-bold"
+                          : "text-gray-900 font-medium"
+                      }`}
+                    >
+                      {opt.label}
+                    </span>
                   </button>
                 </li>
               ))}
@@ -169,7 +229,7 @@ export default function Home() {
             <ul className="flex flex-col gap-4">
               {catQuestions.map((q, i) => (
                 <li key={i} className="flex flex-col gap-1">
-                  <span className="text-sm font-medium mb-1 text-gray-900">
+                  <span className="text-base font-medium mb-1 text-gray-900">
                     {q}
                   </span>
                   <div className="flex gap-2 justify-between">
@@ -263,7 +323,15 @@ export default function Home() {
                         </svg>
                       ) : null}
                     </span>
-                    {label}
+                    <span
+                      className={`text-base ${
+                        borg === label
+                          ? "text-white font-bold"
+                          : "text-gray-900 font-medium"
+                      }`}
+                    >
+                      {label}
+                    </span>
                   </button>
                 </li>
               ))}
