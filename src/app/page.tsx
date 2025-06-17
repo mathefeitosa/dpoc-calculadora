@@ -57,27 +57,6 @@ export default function Home() {
   const [cat, setCat] = useState<number[]>(Array(8).fill(0));
   const [borg, setBorg] = useState<string | null>(null);
 
-  function goldClass() {
-    const catTotal = cat.reduce((a, b) => a + b, 0);
-    if (exacHosp >= 1 || exac >= 2)
-      return "Grupo E (≥2 exacerbações OU 1 com internação)";
-    if (
-      exacHosp === 0 &&
-      exac <= 1 &&
-      ((mmrc !== null && mmrc >= 2) || catTotal >= 10)
-    )
-      return "Grupo B (0-1 exacerbação sem internação e mMRC ≥2 ou CAT ≥10)";
-    if (
-      exacHosp === 0 &&
-      exac <= 1 &&
-      mmrc !== null &&
-      mmrc <= 1 &&
-      catTotal < 10
-    )
-      return "Grupo A (0-1 exacerbação sem internação e mMRC 0-1 e CAT <10)";
-    return "Classificação não definida";
-  }
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white font-roboto">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-2 sm:p-6 flex flex-col gap-6 mx-auto mt-2 mb-2 sm:mt-8 sm:mb-8 border border-blue-100">
